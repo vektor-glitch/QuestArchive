@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import Navbar from "../components/navbar";
 import { gamesModel, mapToGamesModel } from "../types/model/games";
 import { mapToGamesResponse } from "../types/api/gamesResponse";
+import Navbar from "../components/navbar";
 import "./global.css";
 
 type Page = 'Home' | 'Encyclopedia' | 'Rate Arena' | 'Leaderboard';

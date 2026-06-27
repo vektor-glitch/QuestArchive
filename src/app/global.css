@@ -10,6 +10,7 @@
 
     /* Colors - Space */
     --color-space-dark: #0a0a0f;
+    --color-space-fg: #eef0f6;
     --color-space-card: #12121e;
     --color-space-glass: rgba(18, 18, 30, 0.4);
     --color-space-border: rgba(255, 255, 255, 0.06);
@@ -35,6 +36,7 @@
     --animate-float-glow: float-glow 25s infinite alternate ease-in-out;
     --animate-logo-pulse: logo-pulse 2s infinite alternate;
     --animate-pop: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    --animate-fade-in: fade-in 0.7s ease forward;
 }
 
 @keyframes float-glow {
@@ -75,6 +77,38 @@
     }
 }
 
+@layer base {
+
+    * {
+    cursor: none !important;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+        scroll-behavior: smooth;
+        font-size: 15px;
+    }
+
+    body {
+        font-size: var(--font-body);
+        background-color: var(--color-space-dark);
+        color: var(--color-space-fg);
+        overflow: hidden;
+        -webkit-font-smoothing: antialiased;
+        cursor: none;
+    }
+
+    ::selection {
+        background-color: var(--color-space-glow);
+        color: var(--color-space-fg);
+    }
+
+    ::-webkit-scrollbar {width: 3px;}
+    ::-webkit-scrollbar-track {background: var(--color-space-dark);}
+    ::-webkit-scrollbar-thumb {background: var(--color-brand-cyan); border-radius: 2px;}
+}
+
 .cursor-dot {
     position: fixed;
     width: 7px;
@@ -104,7 +138,3 @@
 
 body.hovering .cursor-dot { width: 10px; height: 10px; background: var(--color-space-glow); }
 body.hovering .cursor-ring { width: 52px; height: 52px; }
-
-* {
-    cursor: none !important;
-}

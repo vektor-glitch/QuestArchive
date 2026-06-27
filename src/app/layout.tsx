@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
 import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import "./global.css";
 import Cursor from "../components/cursor";
+
+config.autoAddCss = false
 
 const outfit = Outfit({
   subsets: ["latin"],

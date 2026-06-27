@@ -1,4 +1,5 @@
 'use client'
+import { useState, useEffect } from 'react'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeadset } from '@fortawesome/free-solid-svg-icons'
@@ -18,8 +19,18 @@ interface NavbarProps {
 }
 
 export default function Navbar({ activePage, onNavigate }: NavbarProps) {
+    const [scrolled, setscrolled] = useState(false);
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => setVisible(true), 300);
+        const onScroll = () => setscrolled(window.scrollY > 50);
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+
     return (
-        <Disclosure as="header" className="sticky top-0 z-50 bg-space-glass backdrop-blur-1x border-b border-space-border">
+        <Disclosure as="header" className={`sticky top-0 z-50 bg-space-glass backdrop-blur-1x border-b border-space-border transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
             {/* ini buat main navbar */}
             <div className="max-w-325 mx-auto px-8 py-4 flex items-center justify-between gap-4">
 
@@ -64,7 +75,7 @@ export default function Navbar({ activePage, onNavigate }: NavbarProps) {
                     </div>
 
                     {/* ini buat CTA */}
-                    <button className="bg-linear-to-br from-brand-purple to-purple-700 text-white font-header font-semibold px-5 py-2 rounded-lg shadow-lg transition-all hover:translatte-y-[2px] hover:brightness-110 whitespace-nowrap">
+                    <button className="bg-linear-to-br from-brand-purple to-purple-700 text-white font-header font-semibold px-5 py-2 rounded-lg shadow-lg shadow-brand-purple-glow/30 transition-all hover:-translate-y-0.5 hover:shadow-1x hover:shadow-brand-purple/50 hover:brightness-110 whitespace-nowrap">
                         Join Arena!
                     </button>
 
@@ -94,7 +105,7 @@ export default function Navbar({ activePage, onNavigate }: NavbarProps) {
                         </DisclosureButton>
                     ))}
                 </div>
-            </DisclosurePanel >
+            </DisclosurePanel>
         </Disclosure >
     )
 }
