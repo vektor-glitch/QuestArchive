@@ -7,10 +7,10 @@ import { faHeadset } from '@fortawesome/free-solid-svg-icons'
 type Page = 'Home' | 'Encyclopedia' | 'Rate Arena' | 'Leaderboard';
 
 const navItems = [
-    { id: 'home', icon: 'fa-house', label: 'Home' },
-    { id: 'encyclopedia', icon: 'fa-book-open', label: 'Encyclopedia' },
-    { id: 'rate', icon: 'fa-star-half-stroke', label: 'Rate Arena' },
-    { id: 'leaderboard', icon: 'fa-trophy', label: 'Leaderboard' },
+    { id: 'Home', icon: 'fa-house', label: 'Home', activeColor: 'text-brand-purple' },
+    { id: 'Encyclopedia', icon: 'fa-book-open', label: 'Encyclopedia', activeColor: 'text-brand-cyan' },
+    { id: 'Rate', icon: 'fa-star-half-stroke', label: 'Rate Arena', activeColor: 'text-brand-magenta' },
+    { id: 'Leaderboard', icon: 'fa-trophy', label: 'Leaderboard', activeColor: 'text-brand-gold' },
 ]
 
 interface NavbarProps {
@@ -19,18 +19,18 @@ interface NavbarProps {
 }
 
 export default function Navbar({ activePage, onNavigate }: NavbarProps) {
-    const [scrolled, setscrolled] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
         setTimeout(() => setVisible(true), 300);
-        const onScroll = () => setscrolled(window.scrollY > 50);
+        const onScroll = () => setScrolled(window.scrollY > 50);
         window.addEventListener("scroll", onScroll, { passive: true });
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
     return (
-        <Disclosure as="header" className={`sticky top-0 z-50 bg-space-glass backdrop-blur-1x border-b border-space-border transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
+        <Disclosure as="header" className={`sticky top-0 z-50 border-b border-space-border transition-all duration-500 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'} ${scrolled ? 'bg-space-glass backdrop-blur-xl shadow-lg shadow-black/20' : 'bg-transparent'}`}>
             {/* ini buat main navbar */}
             <div className="max-w-325 mx-auto px-8 py-4 flex items-center justify-between gap-4">
 
@@ -57,9 +57,9 @@ export default function Navbar({ activePage, onNavigate }: NavbarProps) {
                         <button
                             key={item.id}
                             onClick={() => onNavigate(item.id as Page)}
-                            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all select-none ${activePage === item.id ? 'bg-brand-purple text-white' : 'text-slate-400 hover:text-slate-100 hover:bg-white/5'}`}
+                            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all select-none ${activePage === item.id ? 'text-slate-100 bg-linear-to-r from-brand-purple/20 to-brand-cyan/10 shadow-[inset_0_0_12px_rgba(123,97,255,0.15)] border border-brand-purple/25 -translate-y-px' : 'text-slate-400 hover:text-slate-100 hover:bg-white/5 border border-transparent'}`}
                         >
-                            <i className={`fa-solid ${item.icon}`} />
+                            <i className={`fa-solid ${item.icon} ${activePage === item.id ? item.activeColor : ''}`} />
                             <span>{item.label}</span>
                         </button>
                     ))}
@@ -75,13 +75,13 @@ export default function Navbar({ activePage, onNavigate }: NavbarProps) {
                     </div>
 
                     {/* ini buat CTA */}
-                    <button className="bg-linear-to-br from-brand-purple to-purple-700 text-white font-header font-semibold px-5 py-2 rounded-lg shadow-lg shadow-brand-purple-glow/30 transition-all hover:-translate-y-0.5 hover:shadow-1x hover:shadow-brand-purple/50 hover:brightness-110 whitespace-nowrap">
+                    <button className="bg-linear-to-br from-brand-purple to-purple-700 text-white font-header font-semibold px-5 py-2 rounded-lg shadow-lg shadow-brand-purple-glow/30 transition-all hover:-translate-y-0.5 hover:shadow-x1 hover:shadow-brand-purple/50 hover:brightness-110 whitespace-nowrap">
                         Join Arena!
                     </button>
 
                     {/* ini buat hamburge */}
                     <DisclosureButton className="group md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-all">
-                        <i className='fa-solid fa-bars group-data-open:hidden text-1x' />
+                        <i className='fa-solid fa-bars group-data-open:hidden text-x1' />
                     </DisclosureButton>
                 </div>
             </div >
