@@ -35,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
       </head>
-      <body className={`${outfit.variable} ${plusJakarta.variable} min-h-full flex flex-col` >
+      <body className={`${outfit.variable} ${plusJakarta.variable} min-h-full flex flex-col`}>
         <LenisProvider>
           <Cursor />
           {children}

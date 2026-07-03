@@ -1,4 +1,4 @@
-# 🗡️ QuestArchive
+# 🗡️ QuestArchive [UN FINISHED]
 Curate Your Collection. Build Your Ultimate Game Archive.
 
 QuestArchive is an interactive video game encyclopedia and digital library. Powered by the massive RAWG Video Games Database API, users can search for trending titles, explore different genres, and dive into specific game details such as Metacritic scores, platforms, and screenshots.
