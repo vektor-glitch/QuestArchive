@@ -4,6 +4,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import "./global.css";
 import Cursor from "../components/cursor";
+import LenisProvider from "../components/lenisProvider";
 
 config.autoAddCss = false
 
@@ -12,6 +13,8 @@ const outfit = Outfit({
   weight: ["300", "400", "500", "600"],
   variable: "--font-header",
 });
+
+config.autoAddCss = false;
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -24,11 +27,7 @@ export const metadata: Metadata = {
   description: "....",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -36,11 +35,13 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
       </head>
-      <body className="min-h-full flex flex-col">
-        <Cursor />
-        {children}
+      <body className={`${outfit.variable} ${plusJakarta.variable} min-h-full flex flex-col` >
+        <LenisProvider>
+          <Cursor />
+          {children}
+        </LenisProvider>
       </body>
-    </html>
+    </html >
   );
 }
 

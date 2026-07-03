@@ -2,13 +2,43 @@
 import { useEffect, useState } from "react";
 import { gamesModel, mapToGamesModel } from "../types/model/games";
 import { mapToGamesResponse } from "../types/api/gamesResponse";
+import { Dialog, DialogPanel } from '@headlessui/react'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Navbar from "../components/navbar";
+import HomePage from "../components/pages/home";
+import EncyclopediaPage from "../components/pages/encyclopedia";
+import RatePage from "../components/pages/rate";
+import LeaderboardPage from "../components/pages/leaderboard";
 import "./global.css";
 
 type Page = 'Home' | 'Encyclopedia' | 'Rate Arena' | 'Leaderboard';
 
-export default function Home() {
+export default function MainPage() {
   const [activePage, setActivePage] = useState<Page>('Home')
+  const [games, setGames] = useState<gamesModel[]>([]);
+
+  const ambilGame = async () => {
+    try {
+      const responseGames = await fetch("https://api.rawg.io/api/games?key=6d5576de850f4374aae7ee1edc070ea3")
+      if (!responseGames.ok) {
+        throw new Error("Error! Failed to Connect.");
+      }
+      const data = await responseGames.json();
+      const gamesResponse = mapToGamesResponse(data);
+      const games = mapToGamesModel(gamesResponse);
+      setGames(games);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      ambilGame()
+    }
+    fetchData()
+  }, [])
 
   return (
     <main className="bg-space-dark text-slate-200 font-body min-h-screen relative overflow-x-hidden">
@@ -22,42 +52,11 @@ export default function Home() {
       <Navbar activePage={activePage} onNavigate={setActivePage} />
 
       {/* Ini buat isi navbarnya per halaman */}
-      {activePage === 'Home' && <div></div>}
-      {activePage === 'Encyclopedia' && <div>Encylopedia Page</div>}
-      {activePage === 'Rate Arena' && <div>Rate Arena Page</div>}
-      {activePage === 'Leaderboard' && <div>Leaderboard Page</div>}
+      {activePage === 'Home' && <HomePage games={games} />}
+      {activePage === 'Encyclopedia' && <EncyclopediaPage games={games} />}
+      {activePage === 'Rate Arena' && <RatePage games={games} />}
+      {activePage === 'Leaderboard' && <LeaderboardPage games={games} />}
 
     </main>
   )
 }
-
-// export default function Page() {
-
-//   const [games, setGames] = useState<gamesModel[]>([]);
-
-//   const ambilGame = async () => {
-//     try {
-//       const responseGames = await fetch("https://api.rawg.io/api/games?key=6d5576de850f4374aae7ee1edc070ea3")
-//       if (!responseGames.ok) {
-//         throw new Error("Error! Failed to Connect.");
-//       }
-
-//       const data = await responseGames.json();
-//       const gamesResponse = mapToGamesResponse(data);
-//       const games = mapToGamesModel(gamesResponse);
-
-//       setGames(games);
-
-//       console.log(data);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       await ambilGame();
-//     };
-//     fetchData();
-//   }, []);
-// }
