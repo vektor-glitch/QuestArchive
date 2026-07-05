@@ -1,46 +1,63 @@
 import { gamesModel } from "@/src/types/model/games";
+import { faFire, faStar, faTags, faBuilding, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface HomePageProps {
     games: gamesModel[];
+    featuredGame?: gamesModel | null;
+    onNavigate: (page: string) => void;
 }
 
-export default function HomePage({ games }: HomePageProps) {
+export default function HomePage({ games, featuredGame, onNavigate }: HomePageProps) {
     return (
         <div className="max-w-325 mx-auto px-8 py-8">
             {/* ini buat hero section */}
-            <section>
-                <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-2">
-                    <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-                        <div className="relative rounded-full px-3 py-1 text-sm/6 text-gray-400 ring-1 ring-white/10 hover:ring-white/20">
-                            Announcing our next round of funding.{' '}
-                            <a href="#" className="font-semibold text-indigo-400">
-                                <span aria-hidden="true" className="absolute inset-0" />
-                                Read more <span aria-hidden="true">&rarr;</span>
-                            </a>
+            <section
+                style={{ backgroundImage: featuredGame ? `url(${featuredGame.background_image})` : 'none' }}
+                className="relative h-[80vh] bg-cover bg-center rounded-2xl overflow-hidden">
+                <div className="absolute inset-0 bg-black/65" />
+                <div className="relative z-10 flex flex-col justify-end h-full p-12">
+                    {featuredGame ? (
+                        <div>
+                            <div className="w-fit items-center bg-brand-purple/20 border border-brand-purple px-4 py-1 rounded-full mb-2">
+                                <span
+                                    className="text-white tracking-widest text-sm mb-2">
+                                    <FontAwesomeIcon icon={faFire} /> Featured Most Rated Game of the Year
+                                </span>
+                            </div>
+                            <h1
+                                className="text-6xl font-bold text-white mb-2">
+                                {featuredGame.name}
+                            </h1>
+                            <div className="flex items-center gap-4 flex-wrap mt-1">
+                                <span>
+                                    <FontAwesomeIcon icon={faTags} className="mr-1 text-brand-purple" /> {featuredGame.genres.map(g => g.name).join(',')}
+                                </span>
+                                <span>
+                                    <FontAwesomeIcon icon={faBuilding} className="mr-1 text-brand-purple" /> {featuredGame.developers.map(d => d.name).join(',')}
+                                </span>
+                                <span>
+                                    <FontAwesomeIcon icon={faStar} className="mr-1 text-brand-gold" /> {featuredGame.rating} / 5
+                                </span>
+                            </div>
+                            <p className="text-gray-300 mt-4 mx-w-x1 line-clamp-3">
+                                {featuredGame.description}
+                            </p>
+                            <div className="flex gap-4 mt-4">
+                                <label onClick={() => onNavigate('Detail')} className="bg-linear-to-br from-brand-purple to-purple-700 text-white px-8 py-3.5 font-header font-bold rounded-lg shadow-lg shadow-brand-purple-glow/30 transition-all hover:-translate-y-0,75 hover:shadow-x1 hover:shadow-brand-purple/60  hover:brightness-110 flex items-center gap-2.5 cursor-pointer select-none">
+                                    <FontAwesomeIcon icon={faCircleInfo} /> View Details
+                                </label>
+                                <label onClick={() => onNavigate('Rate Arena')} className="bg-white/20 border-space-border text-slate-100 px-8 py-3.5 font-header font-bold rounded-lg transition-all hover:bg-white/10 hover:-translate-y-0.75 hover:border-slate-400 flex items-center gap-2.5 cursor-pointer select-none">
+                                    <FontAwesomeIcon icon={faStar} /> Rate This Game
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div className="text-center">
-                        <h1 className="text-5xl font-semibold tracking-tight text-balance text-white sm:text-7xl">
-                            Data to enrich your online business
-                        </h1>
-                        <p className="mt-8 text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">
-                            Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet
-                            fugiat veniam occaecat.
-                        </p>
-                        <div className="mt-10 flex items-center justify-center gap-x-6">
-                            <a
-                                href="#"
-                                className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                            >
-                                Get started
-                            </a>
-                            <a href="#" className="text-sm/6 font-semibold text-white">
-                                Learn more <span aria-hidden="true">→</span>
-                            </a>
-                        </div>
-                    </div>
+                    ) : (
+                        <p className="text-gray-400">Loading featured
+                            game...</p>
+                    )}
                 </div>
-            </section>
-        </div>
+            </section >
+        </div >
     )
 }

@@ -16,6 +16,10 @@ export interface gamesModel {
     background_image: string;
     rating: number;
     ratings: RatingDetail[];
+    description?: string;
+    ratings_count: number;
+    genres: { id: number; name: string; slug: string }[];
+    developers: { id: number; name: string }[];
 }
 
 export function mapToGamesModel(data: gamesResponse): gamesModel[] {
@@ -28,5 +32,8 @@ export function mapToGamesModel(data: gamesResponse): gamesModel[] {
         background_image: item.background_image,
         rating: item.rating,
         ratings: item.ratings,
+        ratings_count: item.ratings_count,
+        genres: item.genres ?? [],
+        developers: item.developers ?? [],
     }));
 }

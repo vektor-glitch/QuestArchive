@@ -9,7 +9,7 @@ type Page = 'Home' | 'Encyclopedia' | 'Rate Arena' | 'Leaderboard';
 const navItems = [
     { id: 'Home', icon: 'fa-house', label: 'Home', activeColor: 'text-brand-purple' },
     { id: 'Encyclopedia', icon: 'fa-book-open', label: 'Encyclopedia', activeColor: 'text-brand-cyan' },
-    { id: 'Rate', icon: 'fa-star-half-stroke', label: 'Rate Arena', activeColor: 'text-brand-magenta' },
+    { id: 'Rate Arena', icon: 'fa-star-half-stroke', label: 'Rate Arena', activeColor: 'text-brand-magenta' },
     { id: 'Leaderboard', icon: 'fa-trophy', label: 'Leaderboard', activeColor: 'text-brand-gold' },
 ]
 
