@@ -6,7 +6,7 @@ import Lenis from "lenis"
 export default function LenisProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         const lenis = new Lenis({
-            lerp: 1.0, // ini buat kecepatan scroll (makin besar makin lambat)
+            lerp: 0.06, // ini buat kecepatan scroll (makin besar makin lambat)
             smoothWheel: true, // kalo true ini buat smooth untuk wheel, kalo false biasanya dimatikan untuk touch/mobile
             wheelMultiplier: 1.2,
         })

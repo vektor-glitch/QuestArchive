@@ -17,6 +17,9 @@ export default function MainPage() {
   const [activePage, setActivePage] = useState<Page>('Home')
   const [games, setGames] = useState<gamesModel[]>([]);
   const [featuredGame, setFeaturedGame] = useState<gamesModel | null>(null);
+  const [totalGames, setTotalGames] = useState<number>(0);
+  const [activeReviewed, setActiveReviewed] = useState<number>(0);
+  const [avgScore, setAvgScore] = useState<string>(0);
 
   const ambilGame = async () => {
     try {
@@ -28,6 +31,9 @@ export default function MainPage() {
       const gamesResponse = mapToGamesResponse(data);
       const games = mapToGamesModel(gamesResponse);
       setGames(games);
+      setTotalGames(data.count);
+      const avg = games.reduce((sum, g) => sum + g.rating, 0) / games.length;
+      setAvgScore(avg.toFixed(1));
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -44,6 +50,7 @@ export default function MainPage() {
       const res = await fetch(url);
       if (!res.ok) throw new Error("Failed to fetch featured game.");
       const data = await res.json();
+      setActiveReviewed(data.count);
       console.log("Data featured:", data);
       const games = mapToGamesModel(mapToGamesResponse(data));
       const featured = games.reduce((prev: any, curr: any) => (curr.ratings_count > prev.ratings_count ? curr : prev));
@@ -67,7 +74,7 @@ export default function MainPage() {
   }, [])
 
   return (
-    <main className="bg-space-dark text-slate-200 font-body min-h-screen relative overflow-x-hidden">
+    <main className="bg-space-dark text-slate-200 font-body min-h-screen relative">
 
       {/* ini buat background */}
       <div className="fixed w-[50vw] h-[50vw] rounded-full ponter-events-none z-[-1] blur-[150px] opacity-15 mix-blend-screen bg-glow-gradient from-brand-purple to-transparent top-[-10%] left-[10%] animate-float-glow" />
@@ -78,7 +85,7 @@ export default function MainPage() {
       <Navbar activePage={activePage} onNavigate={setActivePage} />
 
       {/* Ini buat isi navbarnya per halaman */}
-      {activePage === 'Home' && <HomePage games={games} featuredGame={featuredGame} onNavigate={setActivePage} />}
+      {activePage === 'Home' && <HomePage games={games} featuredGame={featuredGame} onNavigate={setActivePage} totalGames={totalGames} activeReviewed={activeReviewed} avgScore={avgScore} />}
       {activePage === 'Encyclopedia' && <EncyclopediaPage games={games} />}
       {activePage === 'Rate Arena' && <RatePage games={games} />}
       {activePage === 'Leaderboard' && <LeaderboardPage games={games} />}
