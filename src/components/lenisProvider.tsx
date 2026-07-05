@@ -6,9 +6,9 @@ import Lenis from "lenis"
 export default function LenisProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         const lenis = new Lenis({
-            duration: 1.2, // ini buat kecepatan scroll (makin besar makin lambat)
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // exponential easing untuk scroll cepat di awal lalu melambat di akhir
+            lerp: 1.0, // ini buat kecepatan scroll (makin besar makin lambat)
             smoothWheel: true, // kalo true ini buat smooth untuk wheel, kalo false biasanya dimatikan untuk touch/mobile
+            wheelMultiplier: 1.2,
         })
         // game loop dari raf bahasa bayinya kayak mesin yang berputar setiap frame 
         function raf(time: number) {

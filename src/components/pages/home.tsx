@@ -57,7 +57,9 @@ export default function HomePage({ games, featuredGame, onNavigate }: HomePagePr
                             game...</p>
                     )}
                 </div>
-            </section >
+            </section>
+            {/* ini buat statistic section */}
+
         </div >
     )
 }
