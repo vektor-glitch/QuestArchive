@@ -20,6 +20,7 @@ export default function MainPage() {
   const [totalGames, setTotalGames] = useState<number>(0);
   const [activeReviewed, setActiveReviewed] = useState<number>(0);
   const [avgScore, setAvgScore] = useState<string>(0);
+  const [recommendedGames, setRecommendedGames] = useState<gamesModel[]>([]);
 
   const ambilGame = async () => {
     try {
@@ -54,6 +55,8 @@ export default function MainPage() {
       console.log("Data featured:", data);
       const games = mapToGamesModel(mapToGamesResponse(data));
       const featured = games.reduce((prev: any, curr: any) => (curr.ratings_count > prev.ratings_count ? curr : prev));
+      const top3 = games.filter(g => g.id !== featured.id).slice(0, 3);
+      setRecommendedGames(top3);
       const resDetail = await fetch(`https://api.rawg.io/api/games/${featured.slug}?key=6d5576de850f4374aae7ee1edc070ea3`);
       const detail = await resDetail.json();
       const featuredGameDesc = { ...featured, description: detail.description_raw, developers: detail.developers ?? [], };
@@ -85,7 +88,7 @@ export default function MainPage() {
       <Navbar activePage={activePage} onNavigate={setActivePage} />
 
       {/* Ini buat isi navbarnya per halaman */}
-      {activePage === 'Home' && <HomePage games={games} featuredGame={featuredGame} onNavigate={setActivePage} totalGames={totalGames} activeReviewed={activeReviewed} avgScore={avgScore} />}
+      {activePage === 'Home' && <HomePage games={games} featuredGame={featuredGame} onNavigate={setActivePage} totalGames={totalGames} activeReviewed={activeReviewed} avgScore={avgScore} recommendedGames={recommendedGames} />}
       {activePage === 'Encyclopedia' && <EncyclopediaPage games={games} />}
       {activePage === 'Rate Arena' && <RatePage games={games} />}
       {activePage === 'Leaderboard' && <LeaderboardPage games={games} />}
