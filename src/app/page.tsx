@@ -5,11 +5,11 @@ import { mapToGamesResponse } from "../types/api/gamesResponse";
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 import Navbar from "../components/navbar";
+import { Footer } from "../components/footer";
 import HomePage from "../components/pages/home";
 import EncyclopediaPage from "../components/pages/encyclopedia";
 import RatePage from "../components/pages/rate";
 import LeaderboardPage from "../components/pages/leaderboard";
-import "./global.css";
 
 type Page = 'Home' | 'Encyclopedia' | 'Rate Arena' | 'Leaderboard';
 
@@ -80,9 +80,9 @@ export default function MainPage() {
     <main className="bg-space-dark text-slate-200 font-body min-h-screen relative">
 
       {/* ini buat background */}
-      <div className="fixed w-[50vw] h-[50vw] rounded-full ponter-events-none z-[-1] blur-[150px] opacity-15 mix-blend-screen bg-glow-gradient from-brand-purple to-transparent top-[-10%] left-[10%] animate-float-glow" />
-      <div className="fixed w-[50vw] h-[50vw] rounded-full ponter-events-none z-[-1] blur-[150px] opacity-15 mix-blend-screen bg-glow-gradient from-brand-cyan to-transparent bottom-[-10%] right-[10%] animate-float-glow [animation-delay:5s]" />
-      <div className="fixed w-[50vw] h-[50vw] rounded-full ponter-events-none z-[-1] blur-[150px] opacity-15 mix-blend-screen bg-glow-gradient from-brand-magenta to-transparent top-[40%%] left-[50%] animate-float-glow [animation-delay:10s]" />
+      <div className="fixed w-[50vw] h-[50vw] rounded-full pointer-events-none z-[-1] blur-[150px] opacity-15 mix-blend-screen bg-glow-gradient from-brand-purple to-transparent top-[-10%] left-[10%] animate-float-glow" />
+      <div className="fixed w-[50vw] h-[50vw] rounded-full pointer-events-none z-[-1] blur-[150px] opacity-15 mix-blend-screen bg-glow-gradient from-brand-cyan to-transparent bottom-[-10%] right-[10%] animate-float-glow [animation-delay:5s]" />
+      <div className="fixed w-[50vw] h-[50vw] rounded-full pointer-events-none z-[-1] blur-[150px] opacity-15 mix-blend-screen bg-glow-gradient from-brand-magenta to-transparent top-[40%] left-[50%] animate-float-glow [animation-delay:10s]" />
 
       {/* ini navbarnya */}
       <Navbar activePage={activePage} onNavigate={setActivePage} />
@@ -92,6 +92,8 @@ export default function MainPage() {
       {activePage === 'Encyclopedia' && <EncyclopediaPage games={games} />}
       {activePage === 'Rate Arena' && <RatePage games={games} />}
       {activePage === 'Leaderboard' && <LeaderboardPage games={games} />}
+
+      <Footer onNavigate={setActivePage} />
 
     </main>
   )

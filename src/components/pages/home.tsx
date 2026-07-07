@@ -155,6 +155,9 @@ export default function HomePage({ games, featuredGame, onNavigate, totalGames, 
                     </div>
                 </AnimatedSlideUp>
             </section>
+            <footer>
+
+            </footer>
         </div>
     )
 }

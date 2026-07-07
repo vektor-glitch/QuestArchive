@@ -1,3 +1,4 @@
+// library from lenis
 'use client'
 
 import { useEffect } from "react"
