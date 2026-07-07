@@ -2,8 +2,6 @@
 import { useEffect, useState } from "react";
 import { gamesModel, mapToGamesModel } from "../types/model/games";
 import { mapToGamesResponse } from "../types/api/gamesResponse";
-import { Dialog, DialogPanel } from '@headlessui/react'
-import { Bars3Icon } from '@heroicons/react/24/outline'
 import Navbar from "../components/navbar";
 import { Footer } from "../components/footer";
 import HomePage from "../components/pages/home";

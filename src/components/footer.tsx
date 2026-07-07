@@ -32,7 +32,7 @@ interface FooterProps {
     onNavigate: (page: string) => void;
 }
 
-export const Footer = ({ onClick, onNavigate, description = "Your ultimate game encyclopedia and rating platform. Discover, rate, and explore the gaming universe.", copyright = "© 2026 QuestArchive. Powered by RAWG API." }: FooterProps) => {
+export const Footer = ({ onNavigate, description = "Your ultimate game encyclopedia and rating platform. Discover, rate, and explore the gaming universe.", copyright = "© 2026 QuestArchive. Powered by RAWG API." }: FooterProps) => {
     const handleNavigate = (page: string) => {
         onNavigate(page)
         window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -131,15 +131,8 @@ export const Footer = ({ onClick, onNavigate, description = "Your ultimate game 
                             ))}
                         </div>
                     </div>
-                    <div className="mt-8 flex flex-col justify-between gap-4 border-t py-8 text-xs font-medium text-muted-foreground md:flex-row md:items-center md:text-left">
+                    <div className="mt-8 flex flex-col justify-between gap-4 border-t border-t-brand-purple-glow py-8 text-xs font-medium text-muted-foreground md:flex-row md:items-center md:text-left">
                         <p className="order-2 lg:order-1">{copyright}</p>
-                        <ul className="order-1 flex flex-col gap-2 md:order-2 md:flex-row">
-                            {defaultLegalLinks.map((link, idx) => (
-                                <li key={idx} className="hover:text-primary">
-                                    <a href={link.href}> {link.name}</a>
-                                </li>
-                            ))}
-                        </ul>
                     </div>
                 </div>
             </section>
