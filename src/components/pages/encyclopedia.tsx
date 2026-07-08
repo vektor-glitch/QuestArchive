@@ -1,7 +1,7 @@
 import React from 'react';
 import { gamesModel } from "@/src/types/model/games";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faStar } from "@fortawesome/free-solid-svg-icons";
 import AnimatedSlideUp from "@/src/components/ui/animatedslideup";
 import Image from 'next/image';
 import { Footer } from '../footer';
@@ -30,26 +30,31 @@ export default function EncyclopediaPage({ games, isLoading, hasMore, lastGameEl
                         <div key={game.id} className='bg-space-card/50 border border-space-border rounded-xl overflow-hidden hover:scale-[1.02] transition-all duration-500 hover:-translate-y-2 hover:border-space-glow hover:shadow-[0_15px_30px_rgba(123,97,255,0.12)]'>
                             <div className='h-48 w-full overflow-hidden relative'>
                                 <Image src={game.background_image} alt={game.name} fill sizes='(max-width: 768px) 100vw, (max-width:1200px) 50vw, 33vw' className='object-cover ' />
+                                <div className='absolute bottom-4 left-4 bg-space-dark/85 backdrop-blur-md border border-brand-gold text-brand-gold font-header font-bold text-xs px-3 py-1 rounded shadow-md flex items-center gap-1'>
+                                    <FontAwesomeIcon icon={faStar} /> {game.rating}
+                                </div>
                             </div>
                             <div className='p-5 flex flex-col gap-2'>
-                                <h2 className='text-xl font-bold text-white truncate font-header'>{game.name}</h2>
-                                <div className='flex justify-between text-sm'>
-                                    <span className='text-slate-400'>{game.released ? new Date(game.released).getFullYear() : 'TBA'}</span>
-                                    <span className='text-brand-gold font-bold flex items-center gap-1'><FontAwesomeIcon icon={faStar} /> {game.rating}</span>
-                                </div>
-                                <p className='text-slate-400 text-xs mt-2 line-clamp-2'>
-                                    {game.genres?.map(g => g.name).join(', ')}
+                                <p className='text-[10px] font-semibold text-brand-purple uppercase tracking-wider mb-0,5'>
+                                    {game.genres?.map(g => g.name).join(' / ')}
                                 </p>
+                                <h2 className='text-xl font-bold text-white truncate font-header'>{game.name}</h2>
+                                <div className="flex items-center justify-between border-t border-white/10 pt-4 mt-auto">
+                                    <span className='text-xs text-slate-500 flex items-center gap-1.5'><FontAwesomeIcon icon={faCalendar} />{game.released ? new Date(game.released).getFullYear() : 'TBA'}</span>
+                                    <label onClick={() => onNavigate('Detail')} className="bg-transparent border border-brand-purple text-slate-100 font-header font-semibold text-xs px-4 py-1.5 rounded cursor-pointer transition-all hover:bg-brand-purple hover:text-white hover:shadow-[0_0_15px_rgba(123,97,255,0.4)] select-none">Details</label>
+                                </div>
                             </div>
                         </div>
                     ))}
                 </div>
             </AnimatedSlideUp>
             <div ref={lastGameElementRef} className='h-10 w-full mt-10'></div>
-            {isLoading && (
-                <div className='text-center w-full py-9 text-brand-cyan animate-pulse'>Searching for Another Games..</div>
-            )}
+            {
+                isLoading && (
+                    <div className='text-center w-full py-9 text-brand-cyan animate-pulse'>Searching for Another Games..</div>
+                )
+            }
             {!hasMore && <Footer onNavigate={onNavigate} />}
-        </section>
+        </section >
     )
 }

@@ -16,9 +16,10 @@ const navItems = [
 interface NavbarProps {
     activePage: Page
     onNavigate: (page: Page) => void
+    onSearch: (query: string) => void
 }
 
-export default function Navbar({ activePage, onNavigate }: NavbarProps) {
+export default function Navbar({ activePage, onNavigate, onSearch }: NavbarProps) {
     const [scrolled, setScrolled] = useState(false);
     const [visible, setVisible] = useState(false);
 
@@ -70,7 +71,14 @@ export default function Navbar({ activePage, onNavigate }: NavbarProps) {
 
                     {/* buat search bar */}
                     <div className="relative flex items-center">
-                        <input type="text" placeholder="Quick Search..." className="bg-black/30 border-space-border rounded-lg py-2 pl-9 pr-4 text-slate-200 text-xs w-36" />
+                        <input type="text" placeholder="Quick Search..." className="bg-black/30 border-space-border rounded-lg py-2 pl-9 pr-4 text-slate-200 text-xs w-36"
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    onSearch(e.currentTarget.value);
+                                    e.currentTarget.blur();
+                                }
+                            }}
+                        />
                         <i className="fa-solid fa-magnifying-glass absolute left-3 text-slate-500 text-xs" />
                     </div>
 

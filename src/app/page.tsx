@@ -19,6 +19,7 @@ export default function MainPage() {
   const [activeReviewed, setActiveReviewed] = useState<number>(0);
   const [avgScore, setAvgScore] = useState<string>('0');
   const [recommendedGames, setRecommendedGames] = useState<gamesModel[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>('');
   // ini buat pagination
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,11 +40,12 @@ export default function MainPage() {
     [isLoading, hasMore]
   );
 
-  const ambilGame = async (pageNumber: number) => {
-    if (isLoading || !hasMore) return;
+  const ambilGame = async (pageNumber: number, query: string = searchQuery) => {
+    if (isLoading || (!hasMore && pageNumber !== 1)) return;
     setIsLoading(true);
     try {
-      const responseGames = await fetch(`https://api.rawg.io/api/games?key=6d5576de850f4374aae7ee1edc070ea3&page_size=20&page=${pageNumber}`);
+      const searchParam = query ? `&search=${query}` : '';
+      const responseGames = await fetch(`https://api.rawg.io/api/games?key=6d5576de850f4374aae7ee1edc070ea3&page_size=20&page=${pageNumber}${searchParam}`);
       if (!responseGames.ok) {
         throw new Error("Error! Failed to Connect.");
       }
@@ -95,6 +97,16 @@ export default function MainPage() {
     }
   };
 
+  const handleSearch = (query: string) => {
+    if (query === searchQuery) return;
+    setSearchQuery(query);
+    setPage(1);
+    setHasMore(true);
+    setGames([]);
+    setActivePage('Encyclopedia');
+    ambilGame(1, query);
+  };
+
   // ini buat mendeteksi perubahan page
   useEffect(() => {
     ambilGame(page);
@@ -113,7 +125,7 @@ export default function MainPage() {
       <div className="fixed w-[50vw] h-[50vw] rounded-full pointer-events-none z-[-1] blur-[150px] opacity-15 mix-blend-screen bg-glow-gradient from-brand-magenta to-transparent top-[40%] left-[50%] animate-float-glow [animation-delay:10s]" />
 
       {/* ini navbarnya */}
-      <Navbar activePage={activePage} onNavigate={setActivePage} />
+      <Navbar activePage={activePage} onNavigate={setActivePage} onSearch={handleSearch} />
 
       {/* Ini buat isi navbarnya per halaman */}
       {activePage === 'Home' && <HomePage games={games} featuredGame={featuredGame} onNavigate={setActivePage} totalGames={totalGames} activeReviewed={activeReviewed} avgScore={avgScore} recommendedGames={recommendedGames} />}
