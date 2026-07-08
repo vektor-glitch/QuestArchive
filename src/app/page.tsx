@@ -8,8 +8,9 @@ import HomePage from "../components/pages/home";
 import EncyclopediaPage from "../components/pages/encyclopedia";
 import RatePage from "../components/pages/rate";
 import LeaderboardPage from "../components/pages/leaderboard";
+import DetailedPage from "../components/pages/detailGame";
 
-type Page = 'Home' | 'Encyclopedia' | 'Rate Arena' | 'Leaderboard';
+type Page = 'Home' | 'Encyclopedia' | 'Rate Arena' | 'Leaderboard' | 'Detail';
 
 export default function MainPage() {
   const [activePage, setActivePage] = useState<Page>('Home')
@@ -20,6 +21,8 @@ export default function MainPage() {
   const [avgScore, setAvgScore] = useState<string>('0');
   const [recommendedGames, setRecommendedGames] = useState<gamesModel[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedGame, setSelectedGame] = useState<gamesModel> | null > (null);
+
   // ini buat pagination
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -97,6 +100,11 @@ export default function MainPage() {
     }
   };
 
+  const handleOpenDetail = (game: gamesModel) => {
+    setSelectedGame(game);
+    setActivePage('Detail');
+  };
+
   const handleSearch = (query: string) => {
     if (query === searchQuery) return;
     setSearchQuery(query);
@@ -128,12 +136,12 @@ export default function MainPage() {
       <Navbar activePage={activePage} onNavigate={setActivePage} onSearch={handleSearch} />
 
       {/* Ini buat isi navbarnya per halaman */}
-      {activePage === 'Home' && <HomePage games={games} featuredGame={featuredGame} onNavigate={setActivePage} totalGames={totalGames} activeReviewed={activeReviewed} avgScore={avgScore} recommendedGames={recommendedGames} />}
+      {activePage === 'Home' && <HomePage games={games} featuredGame={featuredGame} onNavigate={setActivePage} totalGames={totalGames} activeReviewed={activeReviewed} avgScore={avgScore} recommendedGames={recommendedGames} onOpenDetail={handleOpenDetail} />}
       {activePage === 'Home' && <Footer onNavigate={setActivePage} />}
 
-      {activePage === 'Encyclopedia' && (<EncyclopediaPage games={games} isLoading={isLoading} hasMore={hasMore} lastGameElementRef={lastGameElementRef} onNavigate={setActivePage} />)}
+      {activePage === 'Encyclopedia' && (<EncyclopediaPage games={games} isLoading={isLoading} hasMore={hasMore} lastGameElementRef={lastGameElementRef} onNavigate={setActivePage} onOpenDetail={handleOpenDetail} />)}
 
-      {activePage === 'Rate Arena' && <RatePage games={games} />}
+      {activePage === 'Rate Arena' && <RatePage games={games} onOpenDetail={handleOpenDetail} />}
       {activePage === 'Rate Arena' && <Footer onNavigate={setActivePage} />}
 
       {activePage === 'Leaderboard' && <LeaderboardPage games={games} />}

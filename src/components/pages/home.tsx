@@ -15,9 +15,10 @@ interface HomePageProps {
     activeReviewed: number;
     avgScore: string;
     recommendedGames: gamesModel[];
+    onOpenDetail: (game: gamesModel) => void;
 }
 
-export default function HomePage({ games, featuredGame, onNavigate, totalGames, activeReviewed, avgScore, recommendedGames }: HomePageProps) {
+export default function HomePage({ games, featuredGame, onNavigate, totalGames, activeReviewed, avgScore, recommendedGames, onOpenDetail }: HomePageProps) {
     const [heroZoomed, setHeroZoomed] = useState(false);
     return (
         <div className="max-w-325 mx-auto px-8 py-8">
@@ -60,7 +61,7 @@ export default function HomePage({ games, featuredGame, onNavigate, totalGames, 
                                     {featuredGame.description}
                                 </p>
                                 <div className="flex gap-4 mt-4">
-                                    <label onClick={() => onNavigate('Detail')} className="bg-linear-to-br from-brand-purple to-purple-700 text-white px-8 py-3.5 font-header font-bold rounded-lg shadow-lg shadow-brand-purple-glow/30 transition-all hover:-translate-y-0.75 hover:shadow-xl hover:shadow-brand-purple/60  hover:brightness-110 flex items-center gap-2.5 cursor-pointer select-none">
+                                    <label onClick={() => featuredGame && openDetail('Detail')} className="bg-linear-to-br from-brand-purple to-purple-700 text-white px-8 py-3.5 font-header font-bold rounded-lg shadow-lg shadow-brand-purple-glow/30 transition-all hover:-translate-y-0.75 hover:shadow-xl hover:shadow-brand-purple/60  hover:brightness-110 flex items-center gap-2.5 cursor-pointer select-none">
                                         <FontAwesomeIcon icon={faCircleInfo} /> View Details
                                     </label>
                                     <label onClick={() => onNavigate('Rate Arena')} className="bg-white/20 border-space-border text-slate-100 px-8 py-3.5 font-header font-bold rounded-lg transition-all hover:bg-white/10 hover:-translate-y-0.75 hover:border-slate-400 flex items-center gap-2.5 cursor-pointer select-none">
@@ -147,7 +148,7 @@ export default function HomePage({ games, featuredGame, onNavigate, totalGames, 
                                     <div className="absolute bottom-0 left-0 left-0 w-full p-6 z-30 translate-y-[15px] transition-transform duration-500 group-hover:translate-y-0">
                                         <h4 className="text-xl font-bold mb-1 truncate font-header">{game.name}</h4>
                                         <div className="text-slate-350 text-xs mb-4"> <FontAwesomeIcon icon={faStar} className="text-brand-gold" />{game.rating}/5</div>
-                                        <label onClick={() => onNavigate('Detail')} className="inline-block bg-brand-purple text-white text-xs font-header font-bold px-4 py-1.5 rounded cursor-pointer opacity-0 transition-opacity duration-500 group-hover:opacity-100 hover:bg-purple-600 select-none">Read More</label>
+                                        <label onClick={() => onOpenDetail(game)} className="inline-block bg-brand-purple text-white text-xs font-header font-bold px-4 py-1.5 rounded cursor-pointer opacity-0 transition-opacity duration-500 group-hover:opacity-100 hover:bg-purple-600 select-none">Read More</label>
                                     </div>
                                 </div>
                             </BorderGlow>

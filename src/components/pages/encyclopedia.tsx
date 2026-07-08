@@ -10,11 +10,12 @@ interface EncyclopediaProps {
     games: gamesModel[];
     isLoading: boolean;
     hasMore: boolean;
-    lastGameElementRef: (node: HTMLDivElement | null) => void
-    onNavigate: (page: string) => void
+    lastGameElementRef: (node: HTMLDivElement | null) => void;
+    onNavigate: (page: string) => void;
+    onOpenDetail: (game: gamesModel) => void;
 }
 
-export default function EncyclopediaPage({ games, isLoading, hasMore, lastGameElementRef, onNavigate }: EncyclopediaProps) {
+export default function EncyclopediaPage({ games, isLoading, hasMore, lastGameElementRef, onNavigate, onOpenDetail }: EncyclopediaProps) {
     return (
         <section id='Encyclopedia' className='origin-top scale-95 translate-y-5 transition-all duration-500 ease-out'>
             {/* ini bagian judul */}
@@ -41,7 +42,7 @@ export default function EncyclopediaPage({ games, isLoading, hasMore, lastGameEl
                                 <h2 className='text-xl font-bold text-white truncate font-header'>{game.name}</h2>
                                 <div className="flex items-center justify-between border-t border-white/10 pt-4 mt-auto">
                                     <span className='text-xs text-slate-500 flex items-center gap-1.5'><FontAwesomeIcon icon={faCalendar} />{game.released ? new Date(game.released).getFullYear() : 'TBA'}</span>
-                                    <label onClick={() => onNavigate('Detail')} className="bg-transparent border border-brand-purple text-slate-100 font-header font-semibold text-xs px-4 py-1.5 rounded cursor-pointer transition-all hover:bg-brand-purple hover:text-white hover:shadow-[0_0_15px_rgba(123,97,255,0.4)] select-none">Details</label>
+                                    <label onClick={() => onOpenDetail(game)} className="bg-transparent border border-brand-purple text-slate-100 font-header font-semibold text-xs px-4 py-1.5 rounded cursor-pointer transition-all hover:bg-brand-purple hover:text-white hover:shadow-[0_0_15px_rgba(123,97,255,0.4)] select-none">Details</label>
                                 </div>
                             </div>
                         </div>
