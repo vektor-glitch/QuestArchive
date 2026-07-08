@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { gamesModel, mapToGamesModel } from "../types/model/games";
 import { mapToGamesResponse } from "../types/api/gamesResponse";
 import Navbar from "../components/navbar";
@@ -17,25 +17,54 @@ export default function MainPage() {
   const [featuredGame, setFeaturedGame] = useState<gamesModel | null>(null);
   const [totalGames, setTotalGames] = useState<number>(0);
   const [activeReviewed, setActiveReviewed] = useState<number>(0);
-  const [avgScore, setAvgScore] = useState<string>(0);
+  const [avgScore, setAvgScore] = useState<string>('0');
   const [recommendedGames, setRecommendedGames] = useState<gamesModel[]>([]);
+  // ini buat pagination
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const observer = useRef(); // observer ref
+  const lastGameElementRef = useCallback(
+    (node) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect(); // reset observer
+      observer.current = new IntersectionObserver((entries) => {
+        // jika elemen muncul di layar dan masi ada datanya
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((prevPage) => prevPage + 1); // tambah halaman +1
+        }
+      });
+      if (node) observer.current.observe(node); // pantau elemen (node) baru
+    },
+    [isLoading, hasMore]
+  );
 
-  const ambilGame = async () => {
+  const ambilGame = async (pageNumber: number) => {
+    if (isLoading || !hasMore) return;
+    setIsLoading(true);
     try {
-      const responseGames = await fetch("https://api.rawg.io/api/games?key=6d5576de850f4374aae7ee1edc070ea3")
+      const responseGames = await fetch(`https://api.rawg.io/api/games?key=6d5576de850f4374aae7ee1edc070ea3&page_size=20&page=${pageNumber}`);
       if (!responseGames.ok) {
         throw new Error("Error! Failed to Connect.");
       }
       const data = await responseGames.json();
       const gamesResponse = mapToGamesResponse(data);
-      const games = mapToGamesModel(gamesResponse);
-      setGames(games);
+      const newgames = mapToGamesModel(gamesResponse);
+      setGames((prevgames) => {
+        return pageNumber === 1 ? newgames : [...prevgames, ...newgames];
+      });
       setTotalGames(data.count);
-      const avg = games.reduce((sum, g) => sum + g.rating, 0) / games.length;
+      const avg = games.reduce((sum, g) => sum + g.rating, 0) / newgames.length;
       setAvgScore(avg.toFixed(1));
       console.log(data);
+      // ini untuk cek api masi punya halaman selanjutnya apa engga
+      if (!data.next) {
+        setHasMore(false);
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false); // ini kalo selesai loaading
     }
   };
 
@@ -66,13 +95,14 @@ export default function MainPage() {
     }
   };
 
+  // ini buat mendeteksi perubahan page
   useEffect(() => {
-    const fetchData = async () => {
-      ambilGame()
-      ambilFeaturedGame()
-    }
-    fetchData()
-  }, [])
+    ambilGame(page);
+  }, [page]); // teripicu pas setiap nilai page bertambah
+
+  useEffect(() => {
+    ambilFeaturedGame();
+  }, []);
 
   return (
     <main className="bg-space-dark text-slate-200 font-body min-h-screen relative">
@@ -87,12 +117,15 @@ export default function MainPage() {
 
       {/* Ini buat isi navbarnya per halaman */}
       {activePage === 'Home' && <HomePage games={games} featuredGame={featuredGame} onNavigate={setActivePage} totalGames={totalGames} activeReviewed={activeReviewed} avgScore={avgScore} recommendedGames={recommendedGames} />}
-      {activePage === 'Encyclopedia' && <EncyclopediaPage games={games} />}
+      {activePage === 'Home' && <Footer onNavigate={setActivePage} />}
+
+      {activePage === 'Encyclopedia' && (<EncyclopediaPage games={games} isLoading={isLoading} hasMore={hasMore} lastGameElementRef={lastGameElementRef} onNavigate={setActivePage} />)}
+
       {activePage === 'Rate Arena' && <RatePage games={games} />}
+      {activePage === 'Rate Arena' && <Footer onNavigate={setActivePage} />}
+
       {activePage === 'Leaderboard' && <LeaderboardPage games={games} />}
-
-      <Footer onNavigate={setActivePage} />
-
+      {activePage === 'Leaderboard' && <Footer onNavigate={setActivePage} />}
     </main>
   )
 }

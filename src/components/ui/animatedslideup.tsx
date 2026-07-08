@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 interface AnimatedSlideUpProps {
     children: React.ReactNode;
@@ -9,11 +9,12 @@ interface AnimatedSlideUpProps {
 
 export default function AnimatedSlideUp({ children, delay = 0, className = '' }: AnimatedSlideUpProps) {
     const ref = useRef<HTMLDivElement>(null);
+    const [isVisible, setIsVisible] = useState(false);
     useEffect(() => {
         const observer = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('animate-slide-up');
-                observer.unobserve(entry.target);
+                setIsVisible(true);
+                observer.disconnect();
             }
         }, { threshold: 0.1 });
         if (ref.current) observer.observe(ref.current);
@@ -24,8 +25,7 @@ export default function AnimatedSlideUp({ children, delay = 0, className = '' }:
         <div
             ref={ref}
             style={{ animationDelay: `${delay}ms` }}
-            className={`opacity-0 ${className}`}
-        >
+            className={`opacity-0 ${className} ${isVisible ? 'animate-slide-up opacity-100' : 'opacity-0'}`}>
             {children}
         </div>
     );
