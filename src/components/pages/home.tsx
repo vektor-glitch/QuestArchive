@@ -119,7 +119,7 @@ export default function HomePage({ games, featuredGame, onNavigate, totalGames, 
             {/* Recomendation Section */}
             <section>
                 <AnimatedSlideUp>
-                    <div className="flex items-end justify-content-between mb-4">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-4">
                         <div className="flex flex-col gap-1">
                             <span className="text-xs tracking-[2px] text-brand-cyan uppercase font-semibold">GAME RECOMENDATIONS</span>
                             <h1 className="text-3xl font-extrabold uppercase bg-linear-to-r from-white to-slate-400 bg-clip-text text-transparent font-header">
@@ -134,10 +134,10 @@ export default function HomePage({ games, featuredGame, onNavigate, totalGames, 
                 <AnimatedSlideUp>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {recommendedGames.map((game, i) => (
-                            <BorderGlow key={game.id} backgroundColor="#120F17" borderRadius={16} colors={['#7b61ff', '#00f2fe', '#ff0844']} glowColor="258 100 71" glowIntensity={1.2} glowRadius={20} coneSpread={35} className="h-[35vh]">
-                                <div className="relative h-60 rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_15px_30px_rgba(123,97,255,0.15)] group">
-                                    <div className="w-100 h-100 absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-[1.08]">
-                                        <img src={game.background_image} />
+                            <BorderGlow key={game.id} backgroundColor="#120F17" borderRadius={16} colors={['#7b61ff', '#00f2fe', '#ff0844']} glowColor="258 100 71" glowIntensity={1.2} glowRadius={20} coneSpread={35} className="h-64 md:h-60">
+                                <div className="relative h-full w-full rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_15px_30px_rgba(123,97,255,0.15)] group">
+                                    <div className="w-full h-full absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-[1.08]">
+                                        <img src={game.background_image} className="object-cover w-full h-full scale-[1.15]" />
                                     </div>
                                     <div className="absolute inset-0 bg-black/30 z-10" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-space-dark via-space-dark/30 to-transparent z-20 group-hover:from-space-dark/98"></div>

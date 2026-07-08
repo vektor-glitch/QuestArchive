@@ -59,7 +59,7 @@ export default function MainPage() {
         return pageNumber === 1 ? newgames : [...prevgames, ...newgames];
       });
       setTotalGames(data.count);
-      const avg = games.reduce((sum, g) => sum + g.rating, 0) / newgames.length;
+      const avg = newgames.length > 0 ? newgames.reduce((sum, g) => sum + g.rating, 0) / newgames.length : 0;
       setAvgScore(avg.toFixed(1));
       console.log(data);
       // ini untuk cek api masi punya halaman selanjutnya apa engga
