@@ -29,8 +29,15 @@ export default function EncyclopediaPage({ games, isLoading, hasMore, lastGameEl
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8'>
                     {games.map((game) => (
                         <div key={game.id} className='bg-space-card/50 border border-space-border rounded-xl overflow-hidden hover:scale-[1.02] transition-all duration-500 hover:-translate-y-2 hover:border-space-glow hover:shadow-[0_15px_30px_rgba(123,97,255,0.12)]'>
-                            <div className='h-48 w-full overflow-hidden relative'>
-                                <Image src={game.background_image} alt={game.name} fill sizes='(max-width: 768px) 100vw, (max-width:1200px) 50vw, 33vw' className='object-cover ' />
+                            <div className='h-48 w-full overflow-hidden relative bg-space-border/20 flex items-center justify-center'>
+                                {game.background_image ? (
+                                    <Image src={game.background_image} alt={game.name} fill sizes='(max-width: 768px) 100vw, (max-width:1200px) 50vw, 33vw' className='object-cover ' />
+                                ) : (
+                                    <div className="flex flex-col items-center gap-2 text-slate-500">
+                                        <i className="fa-solid fa-image text-2xl"></i>
+                                        <span className="text-xs font-semibold">No Image Available</span>
+                                    </div>
+                                )}
                                 <div className='absolute bottom-4 left-4 bg-space-dark/85 backdrop-blur-md border border-brand-gold text-brand-gold font-header font-bold text-xs px-3 py-1 rounded shadow-md flex items-center gap-1'>
                                     <FontAwesomeIcon icon={faStar} /> {game.rating}
                                 </div>

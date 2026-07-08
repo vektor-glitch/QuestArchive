@@ -21,7 +21,7 @@ export default function MainPage() {
   const [avgScore, setAvgScore] = useState<string>('0');
   const [recommendedGames, setRecommendedGames] = useState<gamesModel[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedGame, setSelectedGame] = useState<gamesModel> | null > (null);
+  const [selectedGame, setSelectedGame] = useState<gamesModel | null>(null);
 
   // ini buat pagination
   const [page, setPage] = useState(1);
