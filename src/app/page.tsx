@@ -146,6 +146,8 @@ export default function MainPage() {
 
       {activePage === 'Leaderboard' && <LeaderboardPage games={games} />}
       {activePage === 'Leaderboard' && <Footer onNavigate={setActivePage} />}
+
+      {activePage === 'Detail' && (<DetailedPage game={selectedGame} onNavigate={setActivePage} />)}
     </main>
   )
 }

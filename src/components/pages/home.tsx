@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BorderGlow from "../ui/borderglow";
 import AnimatedSlideUp from "@/src/components/ui/animatedslideup";
 import CountUp from "../ui/countup";
+import Image from 'next/image';
 
 
 interface HomePageProps {
@@ -18,7 +19,7 @@ interface HomePageProps {
     onOpenDetail: (game: gamesModel) => void;
 }
 
-export default function HomePage({ games, featuredGame, onNavigate, totalGames, activeReviewed, avgScore, recommendedGames, onOpenDetail }: HomePageProps) {
+export default function HomePage({ featuredGame, onNavigate, totalGames, activeReviewed, avgScore, recommendedGames, onOpenDetail }: HomePageProps) {
     const [heroZoomed, setHeroZoomed] = useState(false);
     return (
         <div className="max-w-325 mx-auto px-8 py-8">
@@ -61,7 +62,7 @@ export default function HomePage({ games, featuredGame, onNavigate, totalGames, 
                                     {featuredGame.description}
                                 </p>
                                 <div className="flex gap-4 mt-4">
-                                    <label onClick={() => featuredGame && openDetail('Detail')} className="bg-linear-to-br from-brand-purple to-purple-700 text-white px-8 py-3.5 font-header font-bold rounded-lg shadow-lg shadow-brand-purple-glow/30 transition-all hover:-translate-y-0.75 hover:shadow-xl hover:shadow-brand-purple/60  hover:brightness-110 flex items-center gap-2.5 cursor-pointer select-none">
+                                    <label onClick={() => featuredGame && onOpenDetail(featuredGame)} className="bg-linear-to-br from-brand-purple to-purple-700 text-white px-8 py-3.5 font-header font-bold rounded-lg shadow-lg shadow-brand-purple-glow/30 transition-all hover:-translate-y-0.75 hover:shadow-xl hover:shadow-brand-purple/60  hover:brightness-110 flex items-center gap-2.5 cursor-pointer select-none">
                                         <FontAwesomeIcon icon={faCircleInfo} /> View Details
                                     </label>
                                     <label onClick={() => onNavigate('Rate Arena')} className="bg-white/20 border-space-border text-slate-100 px-8 py-3.5 font-header font-bold rounded-lg transition-all hover:bg-white/10 hover:-translate-y-0.75 hover:border-slate-400 flex items-center gap-2.5 cursor-pointer select-none">
@@ -137,15 +138,15 @@ export default function HomePage({ games, featuredGame, onNavigate, totalGames, 
                             <BorderGlow key={game.id} backgroundColor="#120F17" borderRadius={16} colors={['#7b61ff', '#00f2fe', '#ff0844']} glowColor="258 100 71" glowIntensity={1.2} glowRadius={20} coneSpread={35} className="h-64 md:h-60">
                                 <div className="relative h-full w-full rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_15px_30px_rgba(123,97,255,0.15)] group">
                                     <div className="w-full h-full absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-[1.08]">
-                                        <img src={game.background_image} className="object-cover w-full h-full scale-[1.15]" />
+                                        <Image src={game.background_image} alt={game.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover w-full h-full scale-[1.15]" />
                                     </div>
                                     <div className="absolute inset-0 bg-black/30 z-10" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-space-dark via-space-dark/30 to-transparent z-20 group-hover:from-space-dark/98"></div>
+                                    <div className="absolute inset-0 bg-linear-to-t from-space-dark via-space-dark/30 to-transparent z-20 group-hover:from-space-dark/98"></div>
                                     <div className="absolute top-4 right-4 bg-black/60 border border-space-border px-3 py-1 rounded-full text-xs font-semibold z-30">
                                         <p>{game.genres.map(g => g.name).join(', ')}</p>
                                         <p>{game.developers?.map(d => d.name).join(', ')}</p>
                                     </div>
-                                    <div className="absolute bottom-0 left-0 left-0 w-full p-6 z-30 translate-y-[15px] transition-transform duration-500 group-hover:translate-y-0">
+                                    <div className="absolute bottom-0 left-0  w-full p-6 z-30 translate-y-4.75 transition-transform duration-500 group-hover:translate-y-0">
                                         <h4 className="text-xl font-bold mb-1 truncate font-header">{game.name}</h4>
                                         <div className="text-slate-350 text-xs mb-4"> <FontAwesomeIcon icon={faStar} className="text-brand-gold" />{game.rating}/5</div>
                                         <label onClick={() => onOpenDetail(game)} className="inline-block bg-brand-purple text-white text-xs font-header font-bold px-4 py-1.5 rounded cursor-pointer opacity-0 transition-opacity duration-500 group-hover:opacity-100 hover:bg-purple-600 select-none">Read More</label>

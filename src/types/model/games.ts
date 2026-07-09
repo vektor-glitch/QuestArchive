@@ -7,6 +7,22 @@ export interface RatingDetail {
     percent: number;
 }
 
+export interface platform {
+    id: number;
+    name: string;
+    slug: string;
+}
+export interface publisher {
+    id: number;
+    name: string;
+    slug: string;
+}
+export interface ESRBRating {
+    id: number;
+    name: string;
+    slug: string;
+}
+
 export interface gamesModel {
     id: number;
     slug: string;
@@ -20,6 +36,9 @@ export interface gamesModel {
     ratings_count: number;
     genres: { id: number; name: string; slug: string }[];
     developers: { id: number; name: string }[];
+    platforms?: platform[];
+    publishers?: publisher[];
+    esrb_rating?: ESRBRating | null;
 }
 
 export function mapToGamesModel(data: gamesResponse): gamesModel[] {
@@ -35,5 +54,8 @@ export function mapToGamesModel(data: gamesResponse): gamesModel[] {
         ratings_count: item.ratings_count,
         genres: item.genres ?? [],
         developers: item.developers ?? [],
+        platforms: item.platforms ? item.platforms.map((p: any) => p.platform) : [],
+        publishers: item.publishers ?? [],
+        esrb_rating: item.esrb_rating ?? null,
     }));
 }
