@@ -68,7 +68,7 @@ create table ratings (
 ## 🚀 Setup & Instalasi Lokal
 
 ### 1. Clone Project
-Masuk ke direktori project abang:
+Masuk ke direktori project:
 ```bash
 git clone <repository-url>
 cd quest-archive
@@ -81,7 +81,7 @@ npm install
 ```
 
 ### 3. Setup Environment Variables
-Buat file baru bernama `.env.local` di root folder project, lalu isi dengan kredensial dari dashboard Supabase abang:
+Buat file baru bernama `.env.local` di root folder project, lalu isi dengan kredensial dari dashboard Supabase:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
@@ -89,7 +89,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key
 ```
 
 ### 4. Setup Database di Supabase
-1. Masuk ke dashboard project Supabase abang.
+1. Masuk ke dashboard project Supabase.
 2. Buka **SQL Editor**.
 3. Jalankan query pembuatan tabel `ratings` beserta kebijakan **RLS (Row Level Security)** seperti yang tertera pada bagian [Skema Database](#-skema-database-supabase-postgresql) di atas.
 4. Buat policy agar client dapat membaca dan menulis ulasan:
@@ -105,7 +105,7 @@ Jalankan server lokal untuk mulai menggunakan aplikasi:
 ```bash
 npm run dev
 ```
-Buka [http://localhost:3000](http://localhost:3000) di browser abang.
+Buka [http://localhost:3000](http://localhost:3000) di browser.
 
 ---
 
