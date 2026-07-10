@@ -24,9 +24,11 @@ export default function MainPage() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedGame, setSelectedGame] = useState<gamesModel | null>(null);
 
-  // auto scroll ke atas
+  // Auto-scroll ke atas setiap kali pindah tab / halaman
   useEffect(() => {
-    window.scrollTo(0, 0);
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 10);
   }, [activePage]);
 
   // ini buat pagination
