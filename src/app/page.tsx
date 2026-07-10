@@ -28,9 +28,9 @@ export default function MainPage() {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const observer = useRef(); // observer ref
+  const observer = useRef<IntersectionObserver | null>(null); // observer ref
   const lastGameElementRef = useCallback(
-    (node) => {
+    (node: any) => {
       if (isLoading) return;
       if (observer.current) observer.current.disconnect(); // reset observer
       observer.current = new IntersectionObserver((entries) => {
