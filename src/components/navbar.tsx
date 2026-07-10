@@ -4,7 +4,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeadset } from '@fortawesome/free-solid-svg-icons'
 
-type Page = 'Home' | 'Encyclopedia' | 'Rate Arena' | 'Leaderboard';
+type Page = 'Home' | 'Encyclopedia' | 'Rate Arena' | 'Leaderboard' | 'Detail';
 
 const navItems = [
     { id: 'Home', icon: 'fa-house', label: 'Home', activeColor: 'text-brand-purple' },
