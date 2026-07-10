@@ -35,7 +35,7 @@ interface FooterProps {
 export const Footer = ({ onNavigate, description = "Your ultimate game encyclopedia and rating platform. Discover, rate, and explore the gaming universe.", copyright = "© 2026 QuestArchive. Powered by RAWG API." }: FooterProps) => {
     const handleNavigate = (page: 'Home' | 'Encyclopedia' | 'Rate Arena' | 'Leaderboard' | 'Detail') => {
         onNavigate(page)
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        window.scrollTo(0, 0)
     }
     type NavLink = {
         name: string; onClick: () => void

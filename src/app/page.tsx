@@ -26,7 +26,7 @@ export default function MainPage() {
 
   // auto scroll ke atas
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo(0, 0);
   }, [activePage]);
 
   // ini buat pagination
