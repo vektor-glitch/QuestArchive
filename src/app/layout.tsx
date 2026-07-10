@@ -1,3 +1,4 @@
+import { Toaster } from 'sonner';
 import type { Metadata } from "next";
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <LenisProvider>
           <Cursor />
           {children}
+          <Toaster theme="dark" position="bottom-right" richColors />
         </LenisProvider>
       </body>
     </html >

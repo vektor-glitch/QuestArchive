@@ -29,12 +29,13 @@ Papan klasemen game terbaik sepanjang masa yang diurutkan secara dinamis berdasa
 * **Smooth Scrolling:** Menggunakan **Lenis Scroll** untuk transisi gulir halaman yang sangat halus.
 * **Custom Cursor:** Kursor khusus yang mengikuti pergerakan mouse dengan efek *trailing ring* interaktif.
 * **Border Glow Effect:** Efek border gradien menyala dinamis yang mengikuti koordinat kursor mouse.
+* **Interactive Toast Feedback:** Menggunakan **Sonner** untuk menampilkan notifikasi melayang yang interaktif saat mengirim ulasan atau terjadi error, menggantikan popup browser bawaan.
 
 ---
 
 ## 💻 Tech Stack
 
-* **Frontend:** Next.js 14+ (App Router), React 18, TypeScript.
+* **Frontend:** Next.js 14+ (App Router), React 18, TypeScript **Sonner (Toast Notification)**.
 * **Styling:** Tailwind CSS, FontAwesome Icons.
 * **Database & Backend:** Supabase (PostgreSQL), Next.js API/Client Services.
 * **Smooth Scroll:** Lenis.

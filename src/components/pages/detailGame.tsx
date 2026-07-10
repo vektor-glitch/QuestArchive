@@ -1,3 +1,4 @@
+import { Toast } from 'sonner';
 import { useState, useEffect } from "react";
 import { gamesModel } from "@/src/types/model/games";
 import { supabase } from "@/src/lib/supabase";
@@ -140,9 +141,9 @@ export default function DetailPage({ game, onNavigate, previousPage }: DetailPag
 
             // refresh ulasan
             fetchReviews();
-            alert("Rating successfully submitted to Rate Arena!");
+            toast.success("Rating successfully submitted to Rate Arena!");
         } catch (err: any) {
-            alert("Failed to submit rating: " + err.message);
+            toast.error("Failed to submit rating: " + err.message);
         } finally {
             setSubmitting(false);
         }
