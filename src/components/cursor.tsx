@@ -2,8 +2,8 @@
 import { useEffect, useRef } from "react";
 
 export default function Cursor() {
-    const dotRef = useRef(null) // ini buat referensi ke elemen dot kursor
-    const ringRef = useRef(null) // ini buat referensi ke elemen rin kursor
+    const dotRef = useRef<HTMLDivElement | null>(null) // ini buat referensi ke elemen dot kursor
+    const ringRef = useRef<HTMLDivElement | null>(null) // ini buat referensi ke elemen rin kursor
     let mx = 0, my = 0; // ini posisi mouse sekarang
     let rx = 0, ry = 0; // ini posisi rin sekarang
 
@@ -12,7 +12,7 @@ export default function Cursor() {
         const ring = ringRef.current;
         if (!dot || !ring) return;
 
-        const onMove = (e) => {
+        const onMove = (e: MouseEvent) => {
             mx = e.clientX; // ini buat nyimpen posisi mouse X
             my = e.clientY; // ini untuk nyimpen posisis mouse Y
             dot.style.left = mx + "px"; // ini dot nya langsung pindah

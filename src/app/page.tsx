@@ -149,7 +149,7 @@ export default function MainPage() {
       {activePage === 'Leaderboard' && <LeaderboardPage games={games} onOpenDetail={handleOpenDetail} />}
       {activePage === 'Leaderboard' && <Footer onNavigate={setActivePage} />}
 
-      {activePage === 'Detail' && (<DetailedPage game={selectedGame} onNavigate={setActivePage} previousPage={previousPage} />)}
+      {activePage === 'Detail' && selectedGame && (<DetailedPage game={selectedGame} onNavigate={setActivePage} previousPage={previousPage} />)}
     </main>
   )
 }

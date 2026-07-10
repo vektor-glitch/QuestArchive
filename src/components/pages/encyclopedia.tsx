@@ -11,7 +11,7 @@ interface EncyclopediaProps {
     isLoading: boolean;
     hasMore: boolean;
     lastGameElementRef: (node: HTMLDivElement | null) => void;
-    onNavigate: (page: string) => void;
+    onNavigate: (page: 'Home' | 'Encyclopedia' | 'Rate Arena' | 'Leaderboard' | 'Detail') => void;
     onOpenDetail: (game: gamesModel) => void;
 }
 
