@@ -1,21 +1,113 @@
-# 🗡️ QuestArchive [UN FINISHED]
-Curate Your Collection. Build Your Ultimate Game Archive.
+# 🗡️ QuestArchive
 
-QuestArchive is an interactive video game encyclopedia and digital library. Powered by the massive RAWG Video Games Database API, users can search for trending titles, explore different genres, and dive into specific game details such as Metacritic scores, platforms, and screenshots.
+**Curate Your Collection. Build Your Ultimate Game Archive. Rate the digital worlds.**
 
-Beyond discovery, QuestArchive features a custom authentication system that allows gamers to securely log in and curate their own personal "Archive". The platform includes a Global Leaderboard that tracks and ranks users based on the size of their game collection, crowning the ultimate game collectors.
+QuestArchive adalah platform ensiklopedia video game interaktif, perpustakaan digital, dan arena penilaian game berbasis komunitas. Didukung oleh **RAWG Video Games Database API** untuk data game global dan **Supabase (PostgreSQL)** untuk penyimpanan rating komunitas secara real-time.
 
-# ✨ Key Features:
-Dynamic Encyclopedia: Explore an infinite catalog of games fetched seamlessly via the RAWG API.
+Aplikasi ini dibangun menggunakan **Next.js (App Router)** dengan desain antarmuka gelap yang premium, animasi halus, dan kursor interaktif yang dinamis.
 
-Personal Archive: Secure user registration & login (SQL-based) to save and manage a personal digital game library.
+---
 
-Collector's Leaderboard: A competitive ranking system highlighting users with the most archived games.
+## ✨ Fitur Utama
 
-Premium UI/UX: Responsive, dark-themed storefront interface built with Tailwind CSS.
+### 1. 📖 Ensensiklopedia Game Dinamis
+Jelajahi ribuan judul game dari database RAWG secara dinamis. Dilengkapi dengan fitur pencarian cepat, detail informasi developer, penerbit (publisher), tanggal rilis, platform, deskripsi lengkap, hingga batas usia game (ESRB rating).
 
-# 💻 Tech Stack:
+### 2. 🏟️ Rate Arena (Community Hub)
+Pusat interaksi komunitas gamer untuk menyuarakan pendapat mereka:
+* **Penilaian 5 Aspek:** User dapat menilai game secara mendalam berdasarkan aspek *Gameplay*, *Visual/Graphics*, *Story/Lore*, *Audio/Sfx*, dan *Optimization/Performance*.
+* **Formulir Interaktif:** Modal pengisian rating yang modern dilengkapi selektor bintang interaktif, penguncian scroll latar belakang (*scroll lock*), dan pengaman *scroll-bleed* menggunakan Lenis.
+* **Aktivitas Terbaru (Recent Activity):** Menampilkan feed ulasan terbaru secara real-time langsung dari database Supabase.
 
-Frontend: Next.js (App Router), React, Tailwind CSS.
-Backend/Auth: Node.js API Routes.
-Data Source: RAWG API.
+### 3. 🏆 Global Leaderboard (Hall of Fame)
+Papan klasemen game terbaik sepanjang masa yang diurutkan secara dinamis berdasarkan:
+* **Metacritic Score:** Penilaian kritikus profesional industri game global.
+* **Users Rating:** Penilaian rata-rata dari jutaan gamer dunia.
+* Desain visual podium premium dengan efek border menyala (*glowing*) untuk peringkat 3 teratas.
+
+### 4. 💎 Premium UI/UX & Micro-Animations
+* **Smooth Scrolling:** Menggunakan **Lenis Scroll** untuk transisi gulir halaman yang sangat halus.
+* **Custom Cursor:** Kursor khusus yang mengikuti pergerakan mouse dengan efek *trailing ring* interaktif.
+* **Border Glow Effect:** Efek border gradien menyala dinamis yang mengikuti koordinat kursor mouse.
+
+---
+
+## 💻 Tech Stack
+
+* **Frontend:** Next.js 14+ (App Router), React 18, TypeScript.
+* **Styling:** Tailwind CSS, FontAwesome Icons.
+* **Database & Backend:** Supabase (PostgreSQL), Next.js API/Client Services.
+* **Smooth Scroll:** Lenis.
+* **Data Source:** RAWG Video Games API.
+
+---
+
+## 🗄️ Skema Database (Supabase PostgreSQL)
+
+Tabel `ratings` digunakan untuk menyimpan ulasan dari komunitas. Berikut adalah struktur kolomnya:
+
+```sql
+create table ratings (
+  id uuid default gen_random_uuid() primary key,
+  game_id integer not null,
+  game_title text not null,
+  game_image text,
+  rating_gameplay integer check (rating_gameplay >= 1 and rating_gameplay <= 5) not null,
+  rating_visual integer check (rating_visual >= 1 and rating_visual <= 5) not null,
+  rating_story integer check (rating_story >= 1 and rating_story <= 5) not null,
+  rating_audio integer check (rating_audio >= 1 and rating_audio <= 5) not null,
+  rating_optimal integer check (rating_optimal >= 1 and rating_optimal <= 5) not null,
+  username text not null,
+  comment text,
+  create_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+```
+
+---
+
+## 🚀 Setup & Instalasi Lokal
+
+### 1. Clone Project
+Masuk ke direktori project abang:
+```bash
+git clone <repository-url>
+cd quest-archive
+```
+
+### 2. Instalasi Dependency
+Instal library yang diperlukan:
+```bash
+npm install
+```
+
+### 3. Setup Environment Variables
+Buat file baru bernama `.env.local` di root folder project, lalu isi dengan kredensial dari dashboard Supabase abang:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key
+```
+
+### 4. Setup Database di Supabase
+1. Masuk ke dashboard project Supabase abang.
+2. Buka **SQL Editor**.
+3. Jalankan query pembuatan tabel `ratings` beserta kebijakan **RLS (Row Level Security)** seperti yang tertera pada bagian [Skema Database](#-skema-database-supabase-postgresql) di atas.
+4. Buat policy agar client dapat membaca dan menulis ulasan:
+   ```sql
+   alter table ratings enable row level security;
+
+   create policy "Allow public read access" on ratings for select using (true);
+   create policy "Allow public insert access" on ratings for insert with check (true);
+   ```
+
+### 5. Jalankan Aplikasi
+Jalankan server lokal untuk mulai menggunakan aplikasi:
+```bash
+npm run dev
+```
+Buka [http://localhost:3000](http://localhost:3000) di browser abang.
+
+---
+
+## 🔒 Lisensi
+Project ini dibuat untuk keperluan pengembangan portofolio dan edukasi. Hak cipta data game sepenuhnya dimiliki oleh penyedia data **RAWG API**.

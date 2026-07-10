@@ -84,7 +84,7 @@ export default function Navbar({ activePage, onNavigate, onSearch }: NavbarProps
 
                     {/* ini buat CTA */}
                     <button className="bg-linear-to-br from-brand-purple to-purple-700 text-white font-header font-semibold px-5 py-2 rounded-lg shadow-lg shadow-brand-purple-glow/30 transition-all hover:-translate-y-0.5 hover:shadow-x1 hover:shadow-brand-purple/50 hover:brightness-110 whitespace-nowrap">
-                        Join Arena!
+                        Rate Now!
                     </button>
 
                     {/* ini buat hamburge */}

@@ -22,7 +22,7 @@ interface ReviewData {
     rating_audio: number;
     rating_optimal: number;
     username: string;
-    coment: string;
+    comment: string;
     create_at: string;
 }
 
@@ -65,7 +65,7 @@ export default function DetailPage({ game, onNavigate, previousPage }: DetailPag
         const fetchGameDetail = async () => {
             try {
                 const res = await fetch(`https://api.rawg.io/api/games/${game.id}?key=6d5576de850f4374aae7ee1edc070ea3`);
-                if (!res.ok) throw new Error("Gagal mengambil detail game dari RAWG");
+                if (!res.ok) throw new Error("Failed to fetch game details from RAWG");
                 const data = await res.json();
 
                 // hasil review supabase dan rawg
@@ -84,13 +84,25 @@ export default function DetailPage({ game, onNavigate, previousPage }: DetailPag
         // ini useEffect yang memanggil keduanya // jalanin ulang kalo game yang di buka di detail beda
         fetchGameDetail();
         fetchReviews();
-    }, [game.id]); // jalanin ulang kalo game yang di buka di detail beda
+    }, [game.id]);
+
+    // Efek untuk mengunci scroll halaman utama saat modal terbuka (Scroll Lock)
+    useEffect(() => {
+        if (isModalOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [isModalOpen]); // jalanin ulang kalo game yang di buka di detail beda
 
     // kirim data ulasan ke supabase
     const handleSubmitReview = async (e: React.FormEvent) => {
         e.preventDefault(); // ini buat cegah reload halaman 
         if (!username.trim()) {
-            alert("Silakan masukkan username kamu!");
+            alert("Please enter your username!");
             return;
         }
         setSubmitting(true);
@@ -110,7 +122,7 @@ export default function DetailPage({ game, onNavigate, previousPage }: DetailPag
                         rating_audio: ratingAudio,
                         rating_optimal: ratingOptimal,
                         username: username,
-                        coment: comment,
+                        comment: comment,
                     },
                 ]);
 
@@ -128,9 +140,9 @@ export default function DetailPage({ game, onNavigate, previousPage }: DetailPag
 
             // refresh ulasan
             fetchReviews();
-            alert("Rating berhasil dikirim ke Rate Arena!");
+            alert("Rating successfully submitted to Rate Arena!");
         } catch (err: any) {
-            alert("Gagal mengirim rating: " + err.message);
+            alert("Failed to submit rating: " + err.message);
         } finally {
             setSubmitting(false);
         }
@@ -247,7 +259,7 @@ export default function DetailPage({ game, onNavigate, previousPage }: DetailPag
                             </h3>
                             <div className="text-center py-4">
                                 <p className="text-5xl font-black text-white">{avgs.overall || 'N/A'}</p>
-                                <p className="text-xs text-slate-450 mt-1.5">Rata-rata {reviews.length} ulasan gamer</p>
+                                <p className="text-xs text-slate-450 mt-1.5">Average of {reviews.length} gamer reviews</p>
                                 <button
                                     onClick={() => setIsModalOpen(true)}
                                     className="mt-6 w-full bg-linear-to-br from-brand-purple to-purple-700 hover:brightness-110 text-white font-header font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-brand-purple/20 flex items-center justify-center gap-2 cursor-pointer select-none">
@@ -323,8 +335,8 @@ export default function DetailPage({ game, onNavigate, previousPage }: DetailPag
                                 </div>
                             ) : reviews.length === 0 ? (
                                 <div className="text-center py-16 text-slate-500">
-                                    <p className="text-base font-semibold">Belum ada ulasan untuk game ini.</p>
-                                    <p className="text-xs mt-1">Jadilah yang pertama untuk memberikan rating!</p>
+                                    <p className="text-base font-semibold">There are no reviews for this game yet.</p>
+                                    <p className="text-xs mt-1">Be the first to leave a rating!</p>
                                 </div>
                             ) : (
                                 <div className="flex flex-col gap-4">
@@ -361,7 +373,7 @@ export default function DetailPage({ game, onNavigate, previousPage }: DetailPag
                                                             <span>OP: {rev.rating_optimal}</span>
                                                         </div>
                                                         <p className="text-slate-350 text-sm whitespace-pre-wrap leading-relaxed">
-                                                            {rev.coment || <em className="text-slate-500">Hanya memberikan nilai bintang tanpa komentar.</em>}
+                                                            {rev.comment || <em className="text-slate-500">Gave a star rating without a comment.</em>}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -376,61 +388,58 @@ export default function DetailPage({ game, onNavigate, previousPage }: DetailPag
             </div>
 
             {/* MODAL FORM RATING */}
-            <AnimatedSlideUp>
-                {isModalOpen && (
-                    <div className="fixed inset-0 z-100 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-                        <div className="bg-space-card border border-space-border w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
-                            {/* Header Modal */}
-                            <div className="p-6 border-b border-white/10 flex justify-between items-center shrink-0">
-                                <h3 className="font-header font-bold text-xl text-white">Rate: {game.name}</h3>
-                                <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-white text-xl font-bold cursor-pointer select-none focus:outline-none">
-                                    &times;
+            {isModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-space-card border border-space-border w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+                        {/* Header Modal */}
+                        <div className="p-6 border-b border-white/10 flex justify-between items-center shrink-0">
+                            <h3 className="font-header font-bold text-xl text-white">Rate: {game.name}</h3>
+                            <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-white text-xl font-bold cursor-pointer select-none focus:outline-none">
+                                &times;
+                            </button>
+                        </div>
+                        {/* Form Scrollable */}
+                        <form onSubmit={handleSubmitReview} data-lenis-prevent='true' className="p-6 overflow-y-auto flex-1 flex flex-col gap-5">
+                            {/* Input Username */}
+                            <div className="flex flex-col gap-1.5">
+                                <label className="text-xs font-semibold text-slate-300">Your Gamer Tag / Username</label>
+                                <input
+                                    type="text"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    placeholder="e.g. NoobMaster99"
+                                    className="bg-black/40 border border-white/10 rounded-lg py-2.5 px-4 text-slate-100 text-sm focus:outline-none focus:border-brand-purple transition-colors"
+                                    required
+                                />
+                            </div>
+                            {/* Slider / Bintang Input Grid */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <StarInput value={ratingGameplay} onChange={setRatingGameplay} label="Gameplay Rating" icon={faGamepad} />
+                                <StarInput value={ratingVisual} onChange={setRatingVisual} label="Visual/Graphics Rating" icon={faTv} />
+                                <StarInput value={ratingStory} onChange={setRatingStory} label="Story/Lore Rating" icon={faBook} />
+                                <StarInput value={ratingAudio} onChange={setRatingAudio} label="Audio/Sfx Rating" icon={faVolumeHigh} />
+                                <div className="sm:col-span-2">
+                                    <StarInput value={ratingOptimal} onChange={setRatingOptimal} label="Optimization/Performance Rating" icon={faSliders} />
+                                </div>
+                            </div>
+                            {/* Input Komentar */}
+                            <div className="flex flex-col gap-1.5">
+                                <label className="text-xs font-semibold text-slate-300">Your Review Comment (Optional)</label>
+                                <textarea value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Share your thoughts about this game..." rows={4} className="bg-black/40 border border-white/10 rounded-lg py-2.5 px-4 text-slate-100 text-sm focus:outline-none focus:border-brand-purple transition-colors resize-none" />
+                            </div>
+                            {/* CTA */}
+                            <div className="flex justify-end gap-3 mt-4 border-t border-white/10 pt-4 shrink-0">
+                                <button type="button" onClick={() => setIsModalOpen(false)} className="bg-white/10 hover:bg-white/5 border border-white/10 text-slate-300 hover:text-white px-5 py-2.5 rounded-lg text-sm transition-colors cursor-pointer select-none">
+                                    Cancel
+                                </button>
+                                <button type="submit" disabled={submitting} className="bg-linear-to-br from-brand-purple to-purple-700 hover:brightness-110 disabled:opacity-50 text-white font-header font-bold px-6 py-2.5 rounded-lg text-sm shadow-lg shadow-brand-purple/20 transition-all flex items-center gap-2 cursor-pointer select-none">
+                                    {submitting ? "Submitting..." : "Submit Review"}
                                 </button>
                             </div>
-                            {/* Form Scrollable */}
-                            <form onSubmit={handleSubmitReview} className="p-6 overflow-y-auto flex-1 flex flex-col gap-5">
-                                {/* Input Username */}
-                                <div className="flex flex-col gap-1.5">
-                                    <label className="text-xs font-semibold text-slate-300">Your Gamer Tag / Username</label>
-                                    <input
-                                        type="text"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        placeholder="e.g. NoobMaster99"
-                                        className="bg-black/40 border border-white/10 rounded-lg py-2.5 px-4 text-slate-100 text-sm focus:outline-none focus:border-brand-purple transition-colors"
-                                        required
-                                    />
-                                </div>
-                                {/* Slider / Bintang Input Grid */}
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <StarInput value={ratingGameplay} onChange={setRatingGameplay} label="Gameplay Rating" icon={faGamepad} />
-                                    <StarInput value={ratingVisual} onChange={setRatingVisual} label="Visual/Graphics Rating" icon={faTv} />
-                                    <StarInput value={ratingStory} onChange={setRatingStory} label="Story/Lore Rating" icon={faBook} />
-                                    <StarInput value={ratingAudio} onChange={setRatingAudio} label="Audio/Sfx Rating" icon={faVolumeHigh} />
-                                    <div className="sm:col-span-2">
-                                        <StarInput value={ratingOptimal} onChange={setRatingOptimal} label="Optimization/Performance Rating" icon={faSliders} />
-                                    </div>
-                                </div>
-                                {/* Input Komentar */}
-                                <div className="flex flex-col gap-1.5">
-                                    <label className="text-xs font-semibold text-slate-300">Your Review Comment (Optional)</label>
-                                    <textarea value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Share your thoughts about this game..." rows={4} className="bg-black/40 border border-white/10 rounded-lg py-2.5 px-4 text-slate-100 text-sm focus:outline-none focus:border-brand-purple transition-colors resize-none" />
-                                </div>
-                                {/* CTA */}
-                                <div className="flex justify-end gap-3 mt-4 border-t border-white/10 pt-4 shrink-0">
-                                    <button type="button" onClick={() => setIsModalOpen(false)} className="bg-white/10 hover:bg-white/5 border border-white/10 text-slate-300 hover:text-white px-5 py-2.5 rounded-lg text-sm transition-colors cursor-pointer select-none">
-                                        Cancel
-                                    </button>
-                                    <button type="submit" disabled={submitting} className="bg-linear-to-br from-brand-purple to-purple-700 hover:brightness-110 disabled:opacity-50 text-white font-header font-bold px-6 py-2.5 rounded-lg text-sm shadow-lg shadow-brand-purple/20 transition-all flex items-center gap-2 cursor-pointer select-none">
-                                        {submitting ? "Submitting..." : "Submit Review"}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                        </form>
                     </div>
-                )
-                }
-            </AnimatedSlideUp >
+                </div>
+            )}
         </div >
     );
 }
