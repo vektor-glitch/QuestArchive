@@ -26,9 +26,12 @@ export default function MainPage() {
 
   // Auto-scroll ke atas setiap kali pindah tab / halaman
   useEffect(() => {
-    setTimeout(() => {
+    const lenis = (window as any).lenis;
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
       window.scrollTo(0, 0);
-    }, 10);
+    }
   }, [activePage]);
 
   // ini buat pagination

@@ -11,6 +11,10 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
             smoothWheel: true, // kalo true ini buat smooth untuk wheel, kalo false biasanya dimatikan untuk touch/mobile
             wheelMultiplier: 1.2,
         })
+        
+        // Simpan ke object window agar bisa diakses secara global dari komponen lain
+        (window as any).lenis = lenis;
+
         // game loop dari raf bahasa bayinya kayak mesin yang berputar setiap frame 
         function raf(time: number) {
             lenis.raf(time)
