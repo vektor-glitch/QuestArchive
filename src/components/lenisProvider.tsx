@@ -12,7 +12,7 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
             lerp: 0.06, // ini buat kecepatan scroll (makin besar makin lambat)
             smoothWheel: true, // kalo true ini buat smooth untuk wheel, kalo false biasanya dimatikan untuk touch/mobile
             wheelMultiplier: 1.2,
-        })
+        });
         
         // Simpan ke object window agar bisa diakses secara global dari komponen lain
         (window as any).lenis = lenis;
