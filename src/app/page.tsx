@@ -13,7 +13,8 @@ import DetailedPage from "../components/pages/detailGame";
 type Page = 'Home' | 'Encyclopedia' | 'Rate Arena' | 'Leaderboard' | 'Detail';
 
 export default function MainPage() {
-  const [activePage, setActivePage] = useState<Page>('Home')
+  const [activePage, setActivePage] = useState<Page>('Home');
+  const [previousPage, setPreviousPage] = useState<Page>('Home');
   const [games, setGames] = useState<gamesModel[]>([]);
   const [featuredGame, setFeaturedGame] = useState<gamesModel | null>(null);
   const [totalGames, setTotalGames] = useState<number>(0);
@@ -101,6 +102,7 @@ export default function MainPage() {
   };
 
   const handleOpenDetail = (game: gamesModel) => {
+    setPreviousPage(activePage);
     setSelectedGame(game);
     setActivePage('Detail');
   };
@@ -144,10 +146,10 @@ export default function MainPage() {
       {activePage === 'Rate Arena' && <RatePage games={games} onOpenDetail={handleOpenDetail} />}
       {activePage === 'Rate Arena' && <Footer onNavigate={setActivePage} />}
 
-      {activePage === 'Leaderboard' && <LeaderboardPage games={games} />}
+      {activePage === 'Leaderboard' && <LeaderboardPage games={games} onOpenDetail={handleOpenDetail} />}
       {activePage === 'Leaderboard' && <Footer onNavigate={setActivePage} />}
 
-      {activePage === 'Detail' && (<DetailedPage game={selectedGame} onNavigate={setActivePage} />)}
+      {activePage === 'Detail' && (<DetailedPage game={selectedGame} onNavigate={setActivePage} previousPage={previousPage} />)}
     </main>
   )
 }

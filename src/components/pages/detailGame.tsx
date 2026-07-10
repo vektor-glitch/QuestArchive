@@ -9,6 +9,7 @@ import AnimatedSlideUp from "../ui/animatedslideup";
 interface DetailPageProps {
     game: gamesModel;
     onNavigate: (page: any) => void;
+    previousPage: any;
 }
 
 interface ReviewData {
@@ -25,7 +26,7 @@ interface ReviewData {
     create_at: string;
 }
 
-export default function DetailPage({ game, onNavigate }: DetailPageProps) {
+export default function DetailPage({ game, onNavigate, previousPage }: DetailPageProps) {
     const [reviews, setReviews] = useState<ReviewData[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -192,7 +193,7 @@ export default function DetailPage({ game, onNavigate }: DetailPageProps) {
     return (
         <div className="max-w-325 mx-auto px-8 py-8">
             {/* Tombol Back */}
-            <button onClick={() => onNavigate('Home')} className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-6 text-sm select-none focus:outline-none">
+            <button onClick={() => onNavigate(previousPage)} className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-6 text-sm select-none focus:outline-none">
                 <FontAwesomeIcon icon={faChevronLeft} /> Back to Dashboard
             </button>
 

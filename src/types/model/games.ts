@@ -39,6 +39,7 @@ export interface gamesModel {
     platforms?: platform[];
     publishers?: publisher[];
     esrb_rating?: ESRBRating | null;
+    metacritic?: number;
 }
 
 export function mapToGamesModel(data: gamesResponse): gamesModel[] {
@@ -57,5 +58,6 @@ export function mapToGamesModel(data: gamesResponse): gamesModel[] {
         platforms: item.platforms ? item.platforms.map((p: any) => p.platform) : [],
         publishers: item.publishers ?? [],
         esrb_rating: item.esrb_rating ?? null,
+        metacritic: item.metacritic ?? 0,
     }));
 }
