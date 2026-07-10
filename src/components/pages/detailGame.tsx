@@ -1,5 +1,5 @@
-import { Toast } from 'sonner';
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
 import { gamesModel } from "@/src/types/model/games";
 import { supabase } from "@/src/lib/supabase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

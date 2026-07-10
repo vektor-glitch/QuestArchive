@@ -90,7 +90,7 @@ export default function RatePage({ games, onOpenDetail }: RatePageProps) {
 
     // ui
     return (
-        <section className="max-w-325 mx-auto px-8 py-8 origin-top scale-95 translate-y-5 transition-all duration-500 ease-out">
+        <section className="max-w-325 mx-auto px-8 origin-top scale-95 translate-y-5 transition-all duration-500 ease-out">
             {/* Header dulu */}
             <div className="flex flex-col text-center max-w-162.5 mx-auto mb-12 gap-1.5">
                 <span className='text-xs tracking-[2px] uppercase font-semibold text-brand-magenta flex items-center justify-center gap-1.5'>

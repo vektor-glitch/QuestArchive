@@ -88,7 +88,7 @@ export default function LeaderboardPage({ onOpenDetail }: HomePageProps) {
 
     // ui
     return (
-        <section className="max-w-325 mx-auto px-8 py-8 origin-top scale-95 translate-y-5 transition-all duration-500 ease-out">
+        <section className="max-w-325 mx-auto px-8 origin-top scale-95 translate-y-5 transition-all duration-500 ease-out">
             {/* kasi header dulu lee */}
             <div className="flex flex-col text-center max-w-162.5 mx-auto mb-12 gap-1.5">
                 <span className="text-xs tracking-[2px] uppercase font-semibold text-brand-gold flex items-center justify-center gap-1.5">
@@ -130,12 +130,12 @@ export default function LeaderboardPage({ onOpenDetail }: HomePageProps) {
                                     <BorderGlow backgroundColor="#120F17" borderRadius={16} colors={style.glowColor} glowColor={rank === 1 ? "38 100 50" : "0 0 50"} className={`w-full ${style.cardClass}`}>
                                         <div className="relative h-full w-full rounded-2xl overflow-hidden group flex flex-col justify-end p-6 select-none">
                                             {/* background image lur */}
-                                            <div 
-                                                style={{ 
-                                                    backgroundImage: game.background_image 
-                                                        ? `url(${game.background_image})` 
-                                                        : 'linear-gradient(135deg, #1e1145 0%, #0a0a0f 100%)' 
-                                                }} 
+                                            <div
+                                                style={{
+                                                    backgroundImage: game.background_image
+                                                        ? `url(${game.background_image})`
+                                                        : 'linear-gradient(135deg, #1e1145 0%, #0a0a0f 100%)'
+                                                }}
                                                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105 flex items-center justify-center"
                                             >
                                                 {!game.background_image && (
