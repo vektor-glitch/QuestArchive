@@ -11,7 +11,7 @@ import Image from 'next/image';
 interface HomePageProps {
     games: gamesModel[];
     featuredGame?: gamesModel | null;
-    onNavigate: (page: string) => void;
+    onNavigate: (page: 'Home' | 'Encyclopedia' | 'Rate Arena' | 'Leaderboard' | 'Detail') => void;
     totalGames: number;
     activeReviewed: number;
     avgScore: string;
